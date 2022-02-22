@@ -1,0 +1,17 @@
+.alphabet{
+    width: 4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #F6D7A7;
+    border-right: 1px solid #fff;
+    padding:10px;
+    margin:2px;
+    &-item{
+        list-style-type: none;
+        text-transform: uppercase;
+        color: #666;
+        padding: 5px;
+    }
+}
