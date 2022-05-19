@@ -4,15 +4,12 @@ import Box from "./Box";
 import { useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import Item from "./Item";
-import recipes from "../../src/assets/list/recipes"
+import recipes from "../../src/assets/list/recipes";
 const DragDrop = () => {
-
   const [itemDropped, setItemDropped] = useState([]);
   const [itemMerged, setItemMerged] = useState([]);
   const [newItem, setNewItem] = useState();
   const [items, setItems] = useState([]);
-  
-
 
   const [, drop] = useDrop(() => ({
     accept: "ITEM",
@@ -27,8 +24,7 @@ const DragDrop = () => {
   //them item
   let indexItem = 0;
   const addItem = (item, position) => {
-    
-  setItemDropped((state) => {
+    setItemDropped((state) => {
       //tao id moi neu da co phan tu giống đã tồn tại
       if (state.length !== 0 && item.type !== "inTable") {
         const isValid = state.some((element) => element.id === item.id);
@@ -41,15 +37,14 @@ const DragDrop = () => {
             id: item.name + "-" + indexItem,
           });
         }
-      } 
+      }
       console.log(state);
 
       //thay đổi position
       const itemMove = state.find((element) => element.id === item.id);
       if (itemMove) {
         return state.map((element) => {
-          if (element.id === item.id)
-            return { ...element, position};
+          if (element.id === item.id) return { ...element, position };
           return element;
         });
       }
@@ -69,8 +64,8 @@ const DragDrop = () => {
         (item[2].name1 === recipe2 && item[2].name2 === recipe1)
     );
     if (itemResuld) {
-      console.log("c")
-      console.log(itemResuld)
+      console.log("c");
+      console.log(itemResuld);
       const itemFind = {
         id: itemResuld[0],
         name: itemResuld[1],
@@ -79,8 +74,13 @@ const DragDrop = () => {
       };
 
       //add vào danh sách
-      setItemMerged(state=>state.concat({...itemFind,id:"merge"+"-"+itemFind.name+"-"+Math.random() * (1000 - 1)}));
-      
+      setItemMerged((state) =>
+        state.concat({
+          ...itemFind,
+          id: "merge" + "-" + itemFind.name + "-" + Math.random() * (1000 - 1),
+        })
+      );
+
       //xóa các phần tử
       setItemDropped((state) => {
         const firstState = state.filter(
@@ -97,9 +97,14 @@ const DragDrop = () => {
       });
 
       //thêm element vào side
-      console.log("b")
-      console.log(itemFind)
-      setNewItem({name:itemFind.name, id: itemFind.id, src: itemFind.src,type: "inBox"});
+      console.log("b");
+      console.log(itemFind);
+      setNewItem({
+        name: itemFind.name,
+        id: itemFind.id,
+        src: itemFind.src,
+        type: "inBox",
+      });
     }
   };
 
@@ -108,12 +113,10 @@ const DragDrop = () => {
     for (let i = 0; i < itemDroppedLength; i++) {
       if (
         Math.abs(
-          itemDropped[i].position.x -
-            itemDropped[itemDroppedLength].position.x
+          itemDropped[i].position.x - itemDropped[itemDroppedLength].position.x
         ) <= 60 &&
         Math.abs(
-          itemDropped[i].position.y -
-            itemDropped[itemDroppedLength].position.y
+          itemDropped[i].position.y - itemDropped[itemDroppedLength].position.y
         ) <= 60
       ) {
         const yourRecipe = [
@@ -128,12 +131,11 @@ const DragDrop = () => {
         return;
       }
     }
-    
+
     setItems(
       itemDropped.map((item, index) => {
         return (
-     
-            <Item  
+          <Item
             id={item.id}
             key={index}
             name={item.name}
@@ -147,29 +149,26 @@ const DragDrop = () => {
               width: "50px",
             }}
           />
-        
-        
         );
       })
     );
-  }, [itemDropped])
+  }, [itemDropped]);
 
-  useEffect(()=>{
-    if (itemMerged.length>0) {
+  useEffect(() => {
+    if (itemMerged.length > 0) {
       console.log("a");
       console.log(itemMerged);
-      const itemDone=itemMerged[itemMerged.length-1];
-      const positionDone=itemMerged[itemMerged.length-1].position;
-      addItem(itemDone,positionDone)
+      const itemDone = itemMerged[itemMerged.length - 1];
+      const positionDone = itemMerged[itemMerged.length - 1].position;
+      addItem(itemDone, positionDone);
     }
-  },[itemMerged])
- 
+  }, [itemMerged]);
 
   return (
-    <div  ref={drop} className="drapdrop">
+    <div ref={drop} className="drapdrop">
       <div className="drapdrop-detail">
         <Alphabet />
-        <Box newItem={newItem}/>
+        <Box newItem={newItem} />
       </div>
       {items}
     </div>

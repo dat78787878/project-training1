@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Item from "./Item";
 
-
 const initList = [
   { id: 1, name: "fire", src: `/images/fire.png` },
   { id: 2, name: "water", src: `/images/water.png` },
@@ -12,9 +11,8 @@ const initList = [
 
 const Box = (props) => {
   const [initItem, setInitial] = useState(initList);
-  
+
   useEffect(() => {
-  
     if (props.newItem) {
       setInitial((state) => {
         if (state.some((element) => element.name === props.newItem.name)) {
@@ -22,7 +20,7 @@ const Box = (props) => {
         } else return state.concat(props.newItem);
       });
     }
-  
+
     console.log(initItem.length);
   }, [props.newItem]);
 
